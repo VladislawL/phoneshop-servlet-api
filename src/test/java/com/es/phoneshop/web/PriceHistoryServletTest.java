@@ -17,8 +17,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.Currency;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -26,10 +26,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProductListPageServletTest {
+public class PriceHistoryServletTest {
 
-    @InjectMocks
-    private ProductListPageServlet servlet = new ProductListPageServlet();
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -38,8 +36,10 @@ public class ProductListPageServletTest {
     private RequestDispatcher requestDispatcher;
     @Mock
     private DefaultProductService productService;
+    @InjectMocks
+    private PriceHistoryServlet servlet = new PriceHistoryServlet();
     @Captor
-    private ArgumentCaptor<List<Product>> productListArgumentCaptor;
+    private ArgumentCaptor<Product> productArgumentCaptor;
 
     @Before
     public void setup() {
@@ -48,13 +48,17 @@ public class ProductListPageServletTest {
 
     @Test
     public void shouldDoGet() throws ServletException, IOException {
-        List<Product> products = Collections.emptyList();
-        when(productService.findProducts(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(products);
+        Currency usd = Currency.getInstance("USD");
+        Product product = new Product(1L, "sgs", "Samsung Galaxy S", new BigDecimal(100), usd, 100, "image");
+        String path = "/1";
+        when(request.getPathInfo()).thenReturn(path);
+        when(productService.getProductById(1L)).thenReturn(product);
 
         servlet.doGet(request, response);
 
-        verify(request).setAttribute(Mockito.eq("products"), productListArgumentCaptor.capture());
-        assertEquals(products, productListArgumentCaptor.getValue());
+        verify(request).getPathInfo();
+        verify(request).setAttribute(Mockito.eq("product"), productArgumentCaptor.capture());
+        assertEquals(product, productArgumentCaptor.getValue());
         verify(requestDispatcher).forward(request, response);
     }
 }

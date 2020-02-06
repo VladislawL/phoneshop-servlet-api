@@ -2,22 +2,34 @@ package com.es.phoneshop.model.product;
 
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Product {
     private Long id;
     private String code;
     private String description;
-    /** null means there is no price because the product is outdated or new */
+    /**
+     * null means there is no price because the product is outdated or new
+     */
     private BigDecimal price;
-    /** can be null if the price is null */
+    /**
+     * can be null if the price is null
+     */
     private Currency currency;
     private int stock;
     private String imageUrl;
+    private Map<Date, BigDecimal> previousPrices;
 
     public Product() {
     }
 
     public Product(Long id, String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl) {
+        this(id, code, description, price, currency, stock, imageUrl, new HashMap<>());
+    }
+
+    public Product(Long id, String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl, Map<Date, BigDecimal> previousPrices) {
         this.id = id;
         this.code = code;
         this.description = description;
@@ -25,6 +37,7 @@ public class Product {
         this.currency = currency;
         this.stock = stock;
         this.imageUrl = imageUrl;
+        this.previousPrices = previousPrices;
     }
 
     public Long getId() {
@@ -81,5 +94,13 @@ public class Product {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Map<Date, BigDecimal> getPreviousPrices() {
+        return previousPrices;
+    }
+
+    public void setPreviousPrices(Map<Date, BigDecimal> previousPrices) {
+        this.previousPrices = previousPrices;
     }
 }

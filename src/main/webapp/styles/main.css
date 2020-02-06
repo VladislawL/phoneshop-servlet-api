@@ -32,3 +32,12 @@ img.product-tile {
 body.product-list {
 
 }
+
+.borderless {
+  border-collapse: collapse;
+  border : 1px solid transparent;
+}
+
+.borderless td, th {
+  border : 1px solid transparent;
+}
