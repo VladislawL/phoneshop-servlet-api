@@ -30,7 +30,30 @@ img.product-tile {
 
 /* Page specific styles */
 body.product-list {
+}
 
+main {
+  position: relative;
+}
+
+.recently-viewed-sidebar {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+
+  height: fit-content;
+  border: #2b2b2b solid 1px;
+}
+
+.sidebar-item {
+  border: #2b2b2b solid 1px;
+  padding: 5px;
+  margin: 5px;
+  text-align: center;
+}
+
+.sidebar-item img {
+  max-height: 125px;
 }
 
 .borderless {
@@ -40,4 +63,12 @@ body.product-list {
 
 .borderless td, th {
   border : 1px solid transparent;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
 }

@@ -1,4 +1,4 @@
-package com.es.phoneshop.web;
+package com.es.phoneshop.web.servlets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +30,7 @@ public class PriceHistoryServlet extends HttpServlet {
             request.setAttribute("product", product);
             request.setAttribute("today", new Date());
             request.getRequestDispatcher("/WEB-INF/pages/productPriceHistory.jsp").forward(request, response);
-        } catch(ProductNotFoundException e) {
+        } catch (ProductNotFoundException e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }

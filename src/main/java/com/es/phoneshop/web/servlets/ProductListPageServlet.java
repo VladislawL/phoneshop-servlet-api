@@ -1,4 +1,4 @@
-package com.es.phoneshop.web;
+package com.es.phoneshop.web.servlets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
