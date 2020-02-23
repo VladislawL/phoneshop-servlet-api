@@ -1,13 +1,15 @@
-package com.es.phoneshop.model.product;
+package com.es.phoneshop.dao;
+
+import com.es.phoneshop.model.product.Product;
+import com.es.phoneshop.model.product.SearchProductResult;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 public interface ProductDao {
     List<Product> getProducts();
     Optional<Product> getProduct(Long id);
-    List<Product> findProducts(Predicate<Product> predicate);
+    List<SearchProductResult> findProducts(String description);
     void save(Product product);
     void delete(Long id);
 }
