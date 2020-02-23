@@ -1,11 +1,10 @@
 package com.es.phoneshop.model.product;
 
-import com.es.phoneshop.dao.ArrayListProductDao;
-import com.es.phoneshop.dao.ProductDao;
 import com.es.phoneshop.model.utils.ProductUtils;
-import com.es.phoneshop.services.DefaultProductService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
@@ -15,36 +14,31 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ProductUtilsTest {
-    private ProductDao productDao;
-    private DefaultProductService productService;
     private Comparator<Product> comparator;
     private Product product1;
     private Product product2;
 
     @Before
     public void setup() {
-        productDao = ArrayListProductDao.getInstance();
-        productService = DefaultProductService.getInstance();
-
         Currency usd = Currency.getInstance("USD");
         BigDecimal price1 = new BigDecimal(100);
         BigDecimal price2 = new BigDecimal(200);
-        product1 = new Product(null, "sgs", "Samsung", price1, usd, 100, "image");
-        product2 = new Product(null, "sgs2", "iPhone", price2, usd, 0, "image");
+        product1 = new Product(1L, "sgs", "Samsung", price1, usd, 100, "image");
+        product2 = new Product(2L, "sgs2", "iPhone", price2, usd, 0, "image");
     }
 
     @Test
     public void shouldFindProductByDescriptionWithOneMatch() {
         Currency usd = Currency.getInstance("USD");
-        String description = "Xiaomi";
-        String field = "description";
-        String order = "asc";
-        productDao.save(new Product(null, "sgs", description, new BigDecimal(100), usd, 100, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg"));
+        String description = "Xiaomi Redmi";
+        int expectedCountOfMatches = 2;
+        Product testProduct = new Product(1L, "", description, new BigDecimal(0), usd, 0, "");
 
-        Product product = productService.findProducts(description, field, order).get(0);
+        int countOfMatches = ProductUtils.countNumberOfDescriptionMatches(testProduct, description);
 
-        assertEquals(description, product.getDescription());
+        assertEquals(expectedCountOfMatches, countOfMatches);
     }
 
     @Test
