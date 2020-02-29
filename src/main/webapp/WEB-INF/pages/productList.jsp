@@ -8,38 +8,21 @@
   <p>
     Welcome to Expert-Soft training!
   </p>
-  <form method="get">
-    <input type="text" value="<c:out value="${param.query}"/>" name="query">
-    <input type="submit" value="Search">
-  </form>
-  <table>
-    <thead>
-      <tr>
-        <td>
-          Image
-        </td>
-        <td>
-          Description
-          <tags:sortLink field="description" order="asc"/>
-          <tags:sortLink field="description" order="desc"/>
-        </td>
-        <td class="price">
-          Price
-          <tags:sortLink field="price" order="asc"/>
-          <tags:sortLink field="price" order="desc"/>
-        </td>
-      </tr>
-    </thead>
-    <c:forEach var="product" items="${products}">
-      <tr>
-          <td>
-            <img class="product-tile" src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${product.imageUrl}">
-          </td>
-          <td><a href="products/${product.id}">${product.description}</a></td>
-          <td class="price">
-            <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="${product.currency.symbol}"/>
-          </td>
-      </tr>
-    </c:forEach>
-  </table>
+  <div class="container">
+    <div class="row">
+      <tags:filter/>
+      <div class="col xl8 l8 m10">
+        <tags:search/>
+        <c:forEach var="product" items="${products}">
+          <tags:productCard
+                  id="${product.id}"
+                  description="${product.description}"
+                  imageUrl="${product.imageUrl}"
+                  price="${product.price}"
+                  currencySymbol="${product.currency.symbol}"
+          />
+        </c:forEach>
+      </div>
+    </div>
+  </div>
 </tags:master>

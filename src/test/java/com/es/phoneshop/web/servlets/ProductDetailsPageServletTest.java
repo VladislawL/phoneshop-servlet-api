@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Locale;
@@ -45,12 +46,16 @@ public class ProductDetailsPageServletTest {
     private DefaultCartService cartService;
     @Mock
     private RecentlyViewedProductsService viewedProductsService;
+    @Mock
+    private PrintWriter writer;
     @InjectMocks
     private ProductDetailsPageServlet servlet = new ProductDetailsPageServlet();
     @Captor
     private ArgumentCaptor<Product> productArgumentCaptor;
     @Captor
     private ArgumentCaptor<String> messageArgumentCaptor;
+    @Captor
+    private ArgumentCaptor<Integer> statusCodeArgumentCaptor;
 
     private Product product;
     private long productId = 1;
@@ -82,20 +87,23 @@ public class ProductDetailsPageServletTest {
     }
 
     @Test
-    public void shouldRedirectIfThereAreNoExceptionsInDoPost() throws ServletException, IOException {
+    public void shouldSendSuccessIfThereAreNoExceptionsInDoPost() throws ServletException, IOException {
         Cart cart = new Cart();
         Locale locale = Locale.getDefault();
         String quantity = "1";
         String path = "/1";
+        String message = "Added to cart successfully";
 
         when(cartService.getCart(request)).thenReturn(cart);
         when(request.getLocale()).thenReturn(locale);
         when(request.getParameter("quantity")).thenReturn(quantity);
+        when(response.getWriter()).thenReturn(writer);
 
         servlet.doPost(request, response);
 
         verify(cartService).add(cart, Long.parseLong(path.substring(1)), Integer.parseInt(quantity));
-        verify(response).sendRedirect(Mockito.anyString());
+        verify(writer).write(messageArgumentCaptor.capture());
+        assertEquals(message, messageArgumentCaptor.getValue());
     }
 
     @Test
@@ -108,10 +116,13 @@ public class ProductDetailsPageServletTest {
         when(cartService.getCart(request)).thenReturn(cart);
         when(request.getLocale()).thenReturn(locale);
         when(request.getParameter("quantity")).thenReturn(quantity);
+        when(response.getWriter()).thenReturn(writer);
 
         servlet.doPost(request, response);
 
-        verify(request).setAttribute(Mockito.same("error"), messageArgumentCaptor.capture());
+        verify(response).setStatus(statusCodeArgumentCaptor.capture());
+        assertEquals(HttpServletResponse.SC_BAD_REQUEST, statusCodeArgumentCaptor.getValue().intValue());
+        verify(writer).write(messageArgumentCaptor.capture());
         assertEquals(message, messageArgumentCaptor.getValue());
     }
 
@@ -127,10 +138,13 @@ public class ProductDetailsPageServletTest {
         when(request.getLocale()).thenReturn(locale);
         when(request.getParameter("quantity")).thenReturn(stringQuantity);
         doThrow(new OutOfStockException(product, productId)).when(cartService).add(cart, productId, longQuantity);
+        when(response.getWriter()).thenReturn(writer);
 
         servlet.doPost(request, response);
 
-        verify(request).setAttribute(Mockito.same("error"), messageArgumentCaptor.capture());
+        verify(response).setStatus(statusCodeArgumentCaptor.capture());
+        assertEquals(HttpServletResponse.SC_BAD_REQUEST, statusCodeArgumentCaptor.getValue().intValue());
+        verify(writer).write(messageArgumentCaptor.capture());
         assertEquals(message, messageArgumentCaptor.getValue());
     }
 }

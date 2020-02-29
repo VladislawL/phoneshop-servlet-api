@@ -4,51 +4,60 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <tags:master pageTitle="Product Detail">
-    <c:if test="${not empty error}">
-        <p class="error">There was an error</p>
-    </c:if>
-    <c:if test="${param.success}">
-        <p class="success">Added to cart successfully</p>
-    </c:if>
-    <table>
-        <thead>
-            <td>
-                Image
-            </td>
-            <td>
-                Description
-            </td>
-            <td>
-                Stock Level
-            </td>
-            <td>
-                Price
-            </td>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <img class="product-tile" src="${product.imageUrl}">
-                </td>
-                <td>
-                    <c:out value="${product.description}"/>
-                </td>
-                <td>
-                    <c:out value="${product.stock}"/>
-                </td>
-                <td>
-                    <a href="${pageContext.servletContext.contextPath}/products/priceHistory/${product.id}">
-                        <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="${product.currency.symbol}"/>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <form method="post" action="${product.id}">
-        <input type="number" name="quantity" value="<c:out value="${not empty param.quantity ? param.quantity : 1}"/>">
-        <button type="submit">Add</button>
-    </form>
-    <p class="error">
-        ${error}
-    </p>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <p id="status"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s8">
+                <div class="card">
+                    <table>
+                        <tr>
+                            <tr>
+                                <td>Image</td>
+                                <td>
+                                    <img class="product-tile" src="${product.imageUrl}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Description</td>
+                                <td>
+                                    <c:out value="${product.description}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Stock</td>
+                                <td>
+                                    <c:out value="${product.stock}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Price</td>
+                                <td>
+                                    <a href="${pageContext.servletContext.contextPath}/products/priceHistory/${product.id}">
+                                        <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="${product.currency.symbol}"/>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3">
+                <input type="number" name="quantity" value="<c:out value="${not empty param.quantity ? param.quantity : 1}"/>">
+            </div>
+            <div class="col s2">
+                <input type="submit" value="Add" class="btn">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <p id="message" class="error"></p>
+            </div>
+        </div>
+    </div>
 </tags:master>

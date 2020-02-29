@@ -39,23 +39,24 @@ public class ProductDetailsPageServlet extends HttpServlet {
   
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/plain");
+
         try {
             Cart cart = cartService.getCart(request);
-            long  quantity = getQuantity(request);
+            long quantity = getQuantity(request);
             Long id = Long.valueOf(request.getPathInfo().substring(1));
 
             cartService.add(cart, id, quantity);
-
-            response.sendRedirect(request.getRequestURI() + "?success=true");
+            response.getWriter().write("Added to cart successfully");
         } catch (ParseException e) {
-            request.setAttribute("error", "There was a mistake in the number");
-            forwardToProductDetailsPage(request, response);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("There was a mistake in the number");
         } catch (OutOfStockException e) {
-            request.setAttribute("error", "Not enough stock, available " + e.getProduct().getStock());
-            forwardToProductDetailsPage(request, response);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Not enough stock, available " + e.getProduct().getStock());
         } catch (NegativeQuantityException e) {
-            request.setAttribute("error", "Quantity cannot be negative");
-            forwardToProductDetailsPage(request, response);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Quantity cannot be negative");
         }
     }
 
