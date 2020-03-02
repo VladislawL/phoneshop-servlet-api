@@ -4,6 +4,12 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <tags:master pageTitle="Product Detail">
+    <c:if test="${not empty error}">
+        <p class="error">There was an error</p>
+    </c:if>
+    <c:if test="${param.success}">
+        <p class="success">Added to cart successfully</p>
+    </c:if>
     <table>
         <thead>
             <td>
@@ -38,4 +44,11 @@
             </tr>
         </tbody>
     </table>
+    <form method="post" action="${product.id}">
+        <input type="number" name="quantity" value="<c:out value="${not empty param.quantity ? param.quantity : 1}"/>">
+        <button type="submit">Add</button>
+    </form>
+    <p class="error">
+        ${error}
+    </p>
 </tags:master>

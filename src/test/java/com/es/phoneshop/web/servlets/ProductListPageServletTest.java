@@ -1,4 +1,4 @@
-package com.es.phoneshop.web;
+package com.es.phoneshop.web.servlets;
 
 import com.es.phoneshop.model.product.Product;
 import com.es.phoneshop.services.DefaultProductService;
@@ -16,10 +16,9 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Currency;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,8 +26,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProductDetailsPageServletTest {
+public class ProductListPageServletTest {
 
+    @InjectMocks
+    private ProductListPageServlet servlet = new ProductListPageServlet();
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -37,10 +38,8 @@ public class ProductDetailsPageServletTest {
     private RequestDispatcher requestDispatcher;
     @Mock
     private DefaultProductService productService;
-    @InjectMocks
-    private ProductDetailsPageServlet servlet = new ProductDetailsPageServlet();
     @Captor
-    private ArgumentCaptor<Product> productArgumentCaptor;
+    private ArgumentCaptor<List<Product>> productListArgumentCaptor;
 
     @Before
     public void setup() {
@@ -49,17 +48,13 @@ public class ProductDetailsPageServletTest {
 
     @Test
     public void shouldDoGet() throws ServletException, IOException {
-        Currency usd = Currency.getInstance("USD");
-        Product product = new Product(1L, "sgs", "Samsung Galaxy S", new BigDecimal(100), usd, 100, "image");
-        String path = "/1";
-        when(request.getPathInfo()).thenReturn(path);
-        when(productService.getProductById(1L)).thenReturn(product);
+        List<Product> products = Collections.emptyList();
+        when(productService.findProducts(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(products);
 
         servlet.doGet(request, response);
 
-        verify(request).getPathInfo();
-        verify(request).setAttribute(Mockito.eq("product"), productArgumentCaptor.capture());
-        assertEquals(product, productArgumentCaptor.getValue());
+        verify(request).setAttribute(Mockito.eq("products"), productListArgumentCaptor.capture());
+        assertEquals(products, productListArgumentCaptor.getValue());
         verify(requestDispatcher).forward(request, response);
     }
 }

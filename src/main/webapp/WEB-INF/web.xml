@@ -9,17 +9,26 @@
     <listener-class>com.es.phoneshop.demodata.DemoDataContextServletListener</listener-class>
   </listener>
 
+  <filter>
+    <filter-name>recentlyViewedProductsFilter</filter-name>
+    <filter-class>com.es.phoneshop.web.filters.RecentlyViewedProductsFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>productDetailsFilter</filter-name>
+    <filter-class>com.es.phoneshop.web.filters.ProductDetailsFilter</filter-class>
+  </filter>
+
   <servlet>
     <servlet-name>productList</servlet-name>
-    <servlet-class>com.es.phoneshop.web.ProductListPageServlet</servlet-class>
+    <servlet-class>com.es.phoneshop.web.servlets.ProductListPageServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>productDetails</servlet-name>
-    <servlet-class>com.es.phoneshop.web.ProductDetailsPageServlet</servlet-class>
+    <servlet-class>com.es.phoneshop.web.servlets.ProductDetailsPageServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>productPriceHistory</servlet-name>
-    <servlet-class>com.es.phoneshop.web.PriceHistoryServlet</servlet-class>
+    <servlet-class>com.es.phoneshop.web.servlets.PriceHistoryServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -34,6 +43,15 @@
     <servlet-name>productDetails</servlet-name>
     <url-pattern>/products/*</url-pattern>
   </servlet-mapping>
+
+  <filter-mapping>
+    <filter-name>recentlyViewedProductsFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>productDetailsFilter</filter-name>
+    <servlet-name>productDetails</servlet-name>
+  </filter-mapping>
 
   <error-page>
     <error-code>404</error-code>

@@ -37,7 +37,7 @@ public class DefaultProductService implements ProductService {
 
         List<SearchProductResult> products = productDao.findProducts(description);
 
-        if (description == null) {
+        if (description == null || "".equals(description)) {
             return products.stream()
                     .map(SearchProductResult::getProduct)
                     .sorted(comparator)
@@ -84,7 +84,7 @@ public class DefaultProductService implements ProductService {
     }
 
     private Product copyProductExceptPreviousPrices(Product product) {
-        Product copy = new Product(
+        return new Product(
                 product.getId(),
                 product.getCode(),
                 product.getDescription(),
@@ -94,7 +94,6 @@ public class DefaultProductService implements ProductService {
                 product.getImageUrl(),
                 new HashMap<>(product.getPreviousPrices())
         );
-        return copy;
     }
 
     public void setProductDao(ProductDao productDao) {
