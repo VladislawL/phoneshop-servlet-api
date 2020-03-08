@@ -1,4 +1,4 @@
-package com.es.phoneshop.model.cart;
+package com.es.phoneshop.exceptions;
 
 import com.es.phoneshop.model.product.Product;
 
@@ -13,5 +13,9 @@ public class OutOfStockException extends RuntimeException {
 
     public Product getProduct() {
         return product;
+    }
+
+    public long getQuantityRequested() {
+        return quantityRequested;
     }
 }

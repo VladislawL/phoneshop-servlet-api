@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import com.es.phoneshop.model.product.Product;
-import com.es.phoneshop.model.product.ProductNotFoundException;
+import com.es.phoneshop.exceptions.ProductNotFoundException;
 import com.es.phoneshop.services.DefaultProductService;
 
 public class PriceHistoryServlet extends HttpServlet {

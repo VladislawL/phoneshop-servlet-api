@@ -41,11 +41,13 @@ public class ArrayListProductDaoTest {
     public void shouldUpdateOneProduct() {
         Currency usd = Currency.getInstance("USD");
         String description = "IPhone 9";
-        Product product = new Product(null, "sgs", description, new BigDecimal(100), usd, 100, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg");
+        String newDescription = "Samsung";
+        Product testProduct = new Product(null, "sgs", description, new BigDecimal(100), usd, 100, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg");
+        Product updateProduct = new Product(1L, "sgs", newDescription, new BigDecimal(100), usd, 100, "");
+        productDao.save(testProduct);
+        productDao.save(updateProduct);
 
-        productDao.save(product);
-
-        assertEquals(description, productDao.getProduct(1L).get().getDescription());
+        assertEquals(newDescription, productDao.getProduct(1L).get().getDescription());
     }
 
     @Test

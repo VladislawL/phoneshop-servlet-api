@@ -19,7 +19,7 @@ public class DemoDataContextServletListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ProductDao productDao = ArrayListProductDao.getInstance();
+        ProductDao productDao = getProductDao();
 
         generateSampleProductsList(productDao);
 
@@ -53,6 +53,10 @@ public class DemoDataContextServletListener implements ServletContextListener {
         previousPrices.put(datePrice1.getTime(), new BigDecimal(150));
         previousPrices.put(datePrice2.getTime(), new BigDecimal(200));
         return previousPrices;
+    }
+
+    protected ProductDao getProductDao() {
+        return ArrayListProductDao.getInstance();
     }
 
     @Override
