@@ -1,7 +1,7 @@
 package com.es.phoneshop.services;
 
 import com.es.phoneshop.model.product.Product;
-import com.es.phoneshop.model.product.ProductNotFoundException;
+import com.es.phoneshop.exceptions.ProductNotFoundException;
 
 import java.util.List;
 

@@ -6,7 +6,7 @@ import com.es.phoneshop.model.product.SearchProductResult;
 import com.es.phoneshop.model.product.SortField;
 import com.es.phoneshop.model.product.SortOrder;
 import com.es.phoneshop.dao.ArrayListProductDao;
-import com.es.phoneshop.model.product.ProductNotFoundException;
+import com.es.phoneshop.exceptions.ProductNotFoundException;
 import com.es.phoneshop.model.utils.ProductUtils;
 
 import java.util.Comparator;

@@ -1,23 +1,27 @@
 package com.es.phoneshop.model.cart;
 
-public class CartItem {
-    private long productId;
+import com.es.phoneshop.model.product.Product;
+
+import java.io.Serializable;
+
+public class CartItem implements Serializable {
+    private Product product;
     private long quantity;
 
     public CartItem() {
     }
 
-    public CartItem(long productId, long quantity) {
-        this.productId = productId;
+    public CartItem(Product product, long quantity) {
+        this.product = product;
         this.quantity = quantity;
     }
 
-    public long getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(long productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public long getQuantity() {
@@ -26,10 +30,5 @@ public class CartItem {
 
     public void setQuantity(long quantity) {
         this.quantity = quantity;
-    }
-
-    @Override
-    public String toString() {
-        return productId + "=" + quantity;
     }
 }

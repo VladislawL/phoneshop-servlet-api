@@ -1,11 +1,12 @@
 package com.es.phoneshop.web.servlets;
 
 import com.es.phoneshop.model.cart.Cart;
-import com.es.phoneshop.model.cart.OutOfStockException;
+import com.es.phoneshop.exceptions.OutOfStockException;
 import com.es.phoneshop.model.product.Product;
 import com.es.phoneshop.services.DefaultCartService;
 import com.es.phoneshop.services.DefaultProductService;
 import com.es.phoneshop.services.RecentlyViewedProductsService;
+import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,9 @@ import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductDetailsPageServletTest {
@@ -92,7 +95,10 @@ public class ProductDetailsPageServletTest {
         Locale locale = Locale.getDefault();
         String quantity = "1";
         String path = "/1";
+        JSONObject successJsonObject = new JSONObject();
         String message = "Added to cart successfully";
+        successJsonObject.put("message", message);
+        successJsonObject.put("numberOfCartItems", 0);
 
         when(cartService.getCart(request)).thenReturn(cart);
         when(request.getLocale()).thenReturn(locale);
@@ -103,7 +109,7 @@ public class ProductDetailsPageServletTest {
 
         verify(cartService).add(cart, Long.parseLong(path.substring(1)), Integer.parseInt(quantity));
         verify(writer).write(messageArgumentCaptor.capture());
-        assertEquals(message, messageArgumentCaptor.getValue());
+        assertEquals(successJsonObject.toString(), messageArgumentCaptor.getValue());
     }
 
     @Test

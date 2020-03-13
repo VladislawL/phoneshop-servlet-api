@@ -5,7 +5,7 @@
     <div>Recently viewed</div>
     <c:forEach var="product" items="${recentlyViewedProducts}">
         <div class="sidebar-item">
-            <div><img src="${product.imageUrl}" /></div>
+            <div><img class="sidebar-image" src="${product.imageUrl}" /></div>
             <a href="${pageContext.servletContext.contextPath}/products/${product.id}">${product.description}</a>
             <div><fmt:formatNumber value="${product.price}" type="currency" currencySymbol="${product.currency.symbol}"/></div>
         </div>

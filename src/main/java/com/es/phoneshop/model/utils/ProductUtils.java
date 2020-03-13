@@ -45,15 +45,6 @@ public final class ProductUtils {
         }
     }
 
-    public static boolean containsProduct(List<Product> products, long productId) {
-        for (Product product: products) {
-            if (product.getId() == productId) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static Optional<Product> getProductFromList(List<Product> products, long productId) {
         return products.stream()
                 .filter(product -> product.getId().equals(productId))

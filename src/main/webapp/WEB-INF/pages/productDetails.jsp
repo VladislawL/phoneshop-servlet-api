@@ -51,7 +51,7 @@
                 <input type="number" name="quantity" value="<c:out value="${not empty param.quantity ? param.quantity : 1}"/>">
             </div>
             <div class="col s2">
-                <input type="submit" value="Add" class="btn">
+                <input id="add-to-cart" type="submit" value="Add" class="btn">
             </div>
         </div>
         <div class="row">
