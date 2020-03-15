@@ -1,7 +1,9 @@
-package com.es.phoneshop.model.product;
+package com.es.phoneshop.services.productservice;
 
 import com.es.phoneshop.dao.ProductDao;
-import com.es.phoneshop.services.DefaultProductService;
+import com.es.phoneshop.model.product.Product;
+import com.es.phoneshop.model.product.SearchProductResult;
+import com.es.phoneshop.services.productservice.DefaultProductService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,12 +56,12 @@ public class ProductServiceTest {
         Long id = 1L;
         Product testProduct = new Product(id, "sgs", description, new BigDecimal(100), usd, 100, "image");
 
-        when(productDao.getProduct(id)).thenReturn(Optional.of(testProduct));
+        when(productDao.getItem(id)).thenReturn(Optional.of(testProduct));
 
         Product product = productService.getProductById(id);
 
         assertNotNull(product);
-        assertEquals(Long.valueOf(id), product.getId());
+        assertEquals(id, product.getId());
     }
 
     @Test

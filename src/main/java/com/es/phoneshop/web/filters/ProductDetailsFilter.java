@@ -1,8 +1,8 @@
 package com.es.phoneshop.web.filters;
 
 import com.es.phoneshop.model.product.Product;
-import com.es.phoneshop.services.RecentlyViewedProductsService;
-import com.es.phoneshop.services.ViewedProductsService;
+import com.es.phoneshop.services.viewedproductsservice.RecentlyViewedProductsService;
+import com.es.phoneshop.services.viewedproductsservice.ViewedProductsService;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

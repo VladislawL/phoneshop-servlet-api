@@ -15,10 +15,10 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 
 import com.es.phoneshop.exceptions.ProductNotFoundException;
-import com.es.phoneshop.services.DefaultCartService;
-import com.es.phoneshop.services.DefaultProductService;
-import com.es.phoneshop.services.RecentlyViewedProductsService;
-import com.es.phoneshop.services.ViewedProductsService;
+import com.es.phoneshop.services.cartsevice.DefaultCartService;
+import com.es.phoneshop.services.productservice.DefaultProductService;
+import com.es.phoneshop.services.viewedproductsservice.RecentlyViewedProductsService;
+import com.es.phoneshop.services.viewedproductsservice.ViewedProductsService;
 import org.json.simple.JSONObject;
 
 public class ProductDetailsPageServlet extends HttpServlet {

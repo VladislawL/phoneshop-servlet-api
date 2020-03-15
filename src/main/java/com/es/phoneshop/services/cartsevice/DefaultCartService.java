@@ -1,18 +1,17 @@
-package com.es.phoneshop.services;
+package com.es.phoneshop.services.cartsevice;
 
 import com.es.phoneshop.model.cart.Cart;
 import com.es.phoneshop.model.cart.CartItem;
 import com.es.phoneshop.exceptions.NegativeQuantityException;
 import com.es.phoneshop.exceptions.OutOfStockException;
 import com.es.phoneshop.model.product.Product;
+import com.es.phoneshop.services.productservice.DefaultProductService;
+import com.es.phoneshop.services.productservice.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.util.Currency;
 import java.util.List;
-import java.util.Locale;
 
 public class DefaultCartService implements CartService {
     private static DefaultCartService instance;
@@ -23,9 +22,10 @@ public class DefaultCartService implements CartService {
         productService = DefaultProductService.getInstance();
     }
 
-    public static DefaultCartService getInstance() {
-        if (instance == null)
+    public synchronized static DefaultCartService getInstance() {
+        if (instance == null) {
             instance = new DefaultCartService();
+        }
         return instance;
     }
 
@@ -98,11 +98,9 @@ public class DefaultCartService implements CartService {
     }
 
     @Override
-    public String formatTotalPrice(Cart cart, Locale locale) {
-        NumberFormat formatter = NumberFormat.getCurrencyInstance(locale);
-        Currency currency = Currency.getInstance("USD");
-        formatter.setCurrency(currency);
-        return formatter.format(cart.getTotalPrice());
+    public void deleteCart(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.setAttribute(CART_ATTRIBUTE, new Cart());
     }
 
     private void checkStock(Cart cart, long productId, long newQuantity) {
@@ -141,6 +139,6 @@ public class DefaultCartService implements CartService {
         for (CartItem item : items) {
             totalPrice = totalPrice.add(item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
         }
-        cart.setTotalPrice(totalPrice);
+        cart.setSubtotalPrice(totalPrice);
     }
 }

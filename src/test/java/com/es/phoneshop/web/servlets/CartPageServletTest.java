@@ -5,8 +5,8 @@ import com.es.phoneshop.model.cart.CartItem;
 import com.es.phoneshop.exceptions.NegativeQuantityException;
 import com.es.phoneshop.exceptions.OutOfStockException;
 import com.es.phoneshop.model.product.Product;
-import com.es.phoneshop.services.DefaultCartService;
-import com.es.phoneshop.services.DefaultProductService;
+import com.es.phoneshop.model.utils.PriceFormatUtils;
+import com.es.phoneshop.services.cartsevice.DefaultCartService;
 import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -61,7 +61,6 @@ public class CartPageServletTest {
 
     @Before
     public void setup() {
-
         when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
     }
 
@@ -89,6 +88,7 @@ public class CartPageServletTest {
         jsonObject.put("quantity", quantity);
         jsonObject.put("id", productId);
         BigDecimal totalPrice = new BigDecimal(1);
+        String expectedTotalPrice = PriceFormatUtils.format(totalPrice, Locale.getDefault());
 
         Currency usd = Currency.getInstance("USD");
         Product product = new Product(productId, "", "", new BigDecimal(1), usd, 1, "");
@@ -98,18 +98,17 @@ public class CartPageServletTest {
 
         Cart cart = new Cart();
         cart.setCartItems(cartItems);
-        cart.setTotalPrice(totalPrice);
+        cart.setSubtotalPrice(totalPrice);
 
         when(cartService.getCart(request)).thenReturn(cart);
         when(request.getInputStream()).thenReturn(inputStream);
         when(request.getLocale()).thenReturn(Locale.getDefault());
         when(response.getWriter()).thenReturn(writer);
-        when(cartService.formatTotalPrice(Mockito.eq(cart), Mockito.any())).thenReturn(totalPrice.toString());
 
         servlet.doPut(request, response);
 
         verify(writer).write(totalPriceArgumentCaptor.capture());
-        assertEquals(totalPrice.toString(), totalPriceArgumentCaptor.getValue());
+        assertEquals(expectedTotalPrice, totalPriceArgumentCaptor.getValue());
     }
 
     @Test
@@ -195,6 +194,7 @@ public class CartPageServletTest {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", productId);
         BigDecimal totalPrice = new BigDecimal(1);
+        String expectedTotalPrice = PriceFormatUtils.format(totalPrice, Locale.getDefault());
 
         Currency usd = Currency.getInstance("USD");
         Product product = new Product(productId, "", "", new BigDecimal(1), usd, 1, "");
@@ -204,17 +204,17 @@ public class CartPageServletTest {
 
         Cart cart = new Cart();
         cart.setCartItems(cartItems);
-        cart.setTotalPrice(new BigDecimal(0));
+        cart.setSubtotalPrice(totalPrice);
 
         when(cartService.getCart(request)).thenReturn(cart);
         when(request.getInputStream()).thenReturn(inputStream);
+        when(request.getLocale()).thenReturn(Locale.getDefault());
         when(response.getWriter()).thenReturn(writer);
-        when(cartService.formatTotalPrice(Mockito.eq(cart), Mockito.any())).thenReturn(totalPrice.toString());
 
         servlet.doDelete(request, response);
 
         verify(writer).write(totalPriceArgumentCaptor.capture());
-        assertEquals(totalPrice.toString(), totalPriceArgumentCaptor.getValue());
+        assertEquals(expectedTotalPrice, totalPriceArgumentCaptor.getValue());
         verify(cartService).delete(Mockito.eq(cart), productIdArgumentCaptor.capture());
         assertEquals(productId, productIdArgumentCaptor.getValue().longValue());
     }

@@ -21,13 +21,13 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     public static synchronized ArrayListProductDao getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new ArrayListProductDao();
+        }
         return instance;
     }
 
-    @Override
-    public synchronized Optional<Product> getProduct(Long id) {
+    public synchronized <Long> Optional<Product> getItem(Long id) {
         return products.stream()
                 .filter(product -> id.equals(product.getId()))
                 .findFirst();

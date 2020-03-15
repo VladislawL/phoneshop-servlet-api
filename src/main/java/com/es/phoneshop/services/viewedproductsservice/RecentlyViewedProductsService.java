@@ -1,4 +1,4 @@
-package com.es.phoneshop.services;
+package com.es.phoneshop.services.viewedproductsservice;
 
 import com.es.phoneshop.model.product.Product;
 import com.es.phoneshop.model.recentlyviewedproducts.ViewedProducts;
@@ -17,9 +17,10 @@ public class RecentlyViewedProductsService implements ViewedProductsService {
     private RecentlyViewedProductsService() {
     }
 
-    public static RecentlyViewedProductsService getInstance() {
-        if (instance == null)
+    public synchronized static RecentlyViewedProductsService getInstance() {
+        if (instance == null) {
             instance = new RecentlyViewedProductsService();
+        }
         return instance;
     }
 

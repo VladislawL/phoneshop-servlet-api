@@ -23,7 +23,7 @@ public class DemoDataContextServletListener implements ServletContextListener {
 
         generateSampleProductsList(productDao);
 
-        Product product = productDao.getProduct(1L).get();
+        Product product = productDao.getItem(1L).get();
         product.setPreviousPrices(generateSamplePriceHistory());
     }
 

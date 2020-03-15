@@ -1,7 +1,7 @@
 package com.es.phoneshop.web.servlets;
 
 import com.es.phoneshop.model.product.Product;
-import com.es.phoneshop.services.DefaultProductService;
+import com.es.phoneshop.services.productservice.DefaultProductService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,9 +1,10 @@
-package com.es.phoneshop.model.product;
+package com.es.phoneshop.services.cartservice;
 
 import com.es.phoneshop.model.cart.Cart;
 import com.es.phoneshop.model.cart.CartItem;
-import com.es.phoneshop.services.DefaultCartService;
-import com.es.phoneshop.services.ProductService;
+import com.es.phoneshop.model.product.Product;
+import com.es.phoneshop.services.cartsevice.DefaultCartService;
+import com.es.phoneshop.services.productservice.ProductService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,15 +19,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.util.Collections;
 import java.util.Currency;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -41,7 +40,7 @@ public class DefaultCartServiceTest {
     @Mock
     private ProductService productService;
     @Captor
-    private ArgumentCaptor<CartItem> cartItemArgumentCaptor;
+    private ArgumentCaptor<Cart> cartArgumentCaptor;
 
     private String cartAttribute = DefaultCartService.CART_ATTRIBUTE;
     private Cart cart;
@@ -117,20 +116,10 @@ public class DefaultCartServiceTest {
     }
 
     @Test
-    public void shouldFormatTotalPrice() {
-        Locale locale = Locale.getDefault();
-        Currency currency = Currency.getInstance("USD");
+    public void shouldDeleteCart() {
+        cartService.deleteCart(request);
 
-        Cart cart = new Cart();
-        BigDecimal testTotalPrice = new BigDecimal(0);
-        cart.setTotalPrice(testTotalPrice);
-
-        NumberFormat formatter = NumberFormat.getCurrencyInstance(locale);
-        formatter.setCurrency(currency);
-        String expectedTotalPrice = formatter.format(testTotalPrice);
-
-        String totalPrice = cartService.formatTotalPrice(cart, locale);
-
-        assertEquals(expectedTotalPrice, totalPrice);
+        verify(session).setAttribute(Mockito.eq(DefaultCartService.CART_ATTRIBUTE), cartArgumentCaptor.capture());
+        assertEquals(0, cartArgumentCaptor.getValue().getCartItems().size());
     }
 }
