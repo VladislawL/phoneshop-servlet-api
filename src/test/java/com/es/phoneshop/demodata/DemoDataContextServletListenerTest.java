@@ -31,7 +31,7 @@ public class DemoDataContextServletListenerTest {
     @Test
     public void shouldConfirmThatProductListIsNotEmpty() {
         when(demoDataContextServletListener.getProductDao()).thenReturn(productDao);
-        when(productDao.getItem(1L)).thenReturn(Optional.of(new Product()));
+        when(productDao.getItem(Mockito.any())).thenReturn(Optional.of(new Product()));
 
         demoDataContextServletListener.contextInitialized(servletContextEvent);
 

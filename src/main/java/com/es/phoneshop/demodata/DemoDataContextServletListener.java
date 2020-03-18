@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import com.es.phoneshop.dao.ArrayListProductDao;
+import com.es.phoneshop.model.product.OperationSystem;
+import com.es.phoneshop.model.product.PhoneType;
 import com.es.phoneshop.model.product.Product;
 import com.es.phoneshop.dao.ProductDao;
 
@@ -23,8 +25,14 @@ public class DemoDataContextServletListener implements ServletContextListener {
 
         generateSampleProductsList(productDao);
 
-        Product product = productDao.getItem(1L).get();
-        product.setPreviousPrices(generateSamplePriceHistory());
+        Product product1 = productDao.getItem(1L).get();
+        Product product2 = productDao.getItem(3L).get();
+        Product product3 = productDao.getItem(4L).get();
+        product1.setPreviousPrices(generateSamplePriceHistory());
+        product1.setColor("Red");
+        product2.setColor("Black");
+        product3.setType(PhoneType.SMARTPHONE);
+        product3.setOperationSystem(OperationSystem.IOS);
     }
 
     private void generateSampleProductsList(ProductDao productDao) {

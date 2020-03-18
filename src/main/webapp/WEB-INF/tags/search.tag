@@ -30,3 +30,10 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col s4">
+        <a href="${pageContext.servletContext.contextPath}/advancedSearch">
+            <div class="btn">Advanced Search</div>
+        </a>
+    </div>
+</div>
