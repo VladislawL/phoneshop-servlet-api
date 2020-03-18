@@ -5,6 +5,19 @@
          version="3.1">
   <display-name>Phoneshop servlet api training</display-name>
 
+  <context-param>
+    <param-name>deliveryCost</param-name>
+    <param-value>20</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dosTimeOut</param-name>
+    <param-value>60</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dosMaxCountOfRequests</param-name>
+    <param-value>20</param-value>
+  </context-param>
+
   <listener>
     <listener-class>com.es.phoneshop.demodata.DemoDataContextServletListener</listener-class>
   </listener>
@@ -20,6 +33,10 @@
   <filter>
     <filter-name>cartQuantityFilter</filter-name>
     <filter-class>com.es.phoneshop.web.filters.CartQuantityFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>dosFilter</filter-name>
+    <filter-class>com.es.phoneshop.web.filters.DosFilter</filter-class>
   </filter>
 
   <servlet>
@@ -38,6 +55,14 @@
     <servlet-name>cart</servlet-name>
     <servlet-class>com.es.phoneshop.web.servlets.CartPageServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>checkout</servlet-name>
+    <servlet-class>com.es.phoneshop.web.servlets.CheckoutPageServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>overview</servlet-name>
+    <servlet-class>com.es.phoneshop.web.servlets.OrderOverviewPageServlet</servlet-class>
+  </servlet>
   
   <servlet-mapping>
     <servlet-name>productList</servlet-name>
@@ -55,7 +80,19 @@
     <servlet-name>cart</servlet-name>
     <url-pattern>/cart</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>checkout</servlet-name>
+    <url-pattern>/checkout</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>overview</servlet-name>
+    <url-pattern>/order/overview/*</url-pattern>
+  </servlet-mapping>
 
+  <filter-mapping>
+    <filter-name>dosFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
   <filter-mapping>
     <filter-name>recentlyViewedProductsFilter</filter-name>
     <url-pattern>/*</url-pattern>
@@ -69,6 +106,10 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+  <error-page>
+    <error-code>429</error-code>
+    <location>/WEB-INF/pages/tooManyRequestsErrorPage.jsp</location>
+  </error-page>
   <error-page>
     <error-code>404</error-code>
     <location>/WEB-INF/pages/productNotFound.jsp</location>

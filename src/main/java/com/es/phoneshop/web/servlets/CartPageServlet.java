@@ -4,8 +4,9 @@ import com.es.phoneshop.exceptions.ProcessCartException;
 import com.es.phoneshop.model.cart.Cart;
 import com.es.phoneshop.exceptions.NegativeQuantityException;
 import com.es.phoneshop.exceptions.OutOfStockException;
-import com.es.phoneshop.services.CartService;
-import com.es.phoneshop.services.DefaultCartService;
+import com.es.phoneshop.model.utils.PriceFormatUtils;
+import com.es.phoneshop.services.cartsevice.CartService;
+import com.es.phoneshop.services.cartsevice.DefaultCartService;
 import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -33,7 +34,7 @@ public class CartPageServlet extends HttpServlet {
         Cart cart = cartService.getCart(request);
 
         request.setAttribute("cart", cart);
-        request.setAttribute("totalPrice", cartService.formatTotalPrice(cart, request.getLocale()));
+        request.setAttribute("subtotalPrice", PriceFormatUtils.format(cart.getSubtotalPrice(), request.getLocale()));
         request.getRequestDispatcher("WEB-INF/pages/cartPage.jsp").forward(request, response);
     }
 
@@ -48,7 +49,7 @@ public class CartPageServlet extends HttpServlet {
             long id = Long.parseLong(jsonObject.get("id").toString());
 
             updateCart(cart, id, quantity);
-            response.getWriter().write(cartService.formatTotalPrice(cart, request.getLocale()));
+            response.getWriter().write(PriceFormatUtils.format(cart.getSubtotalPrice(), request.getLocale()));
         } catch (ProcessCartException e) {
             response.setStatus(e.getStatusCode());
             response.getWriter().write(e.getMessage());
@@ -71,7 +72,7 @@ public class CartPageServlet extends HttpServlet {
 
             cartService.delete(cart, id);
 
-            response.getWriter().write(cartService.formatTotalPrice(cart, request.getLocale()));
+            response.getWriter().write(PriceFormatUtils.format(cart.getSubtotalPrice(), request.getLocale()));
         } catch (org.json.simple.parser.ParseException e) {
             getServletContext().log(e.getMessage(), e);
         }

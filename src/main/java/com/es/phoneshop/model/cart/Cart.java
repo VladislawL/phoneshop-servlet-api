@@ -7,11 +7,11 @@ import java.util.List;
 
 public class Cart implements Serializable {
     private List<CartItem> cartItems;
-    private BigDecimal totalPrice;
+    private BigDecimal subtotalPrice;
 
     public Cart() {
         cartItems = new ArrayList<>();
-        totalPrice = new BigDecimal(0);
+        subtotalPrice = new BigDecimal(0);
     }
 
     public List<CartItem> getCartItems() {
@@ -22,11 +22,11 @@ public class Cart implements Serializable {
         this.cartItems = cartItems;
     }
 
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
+    public BigDecimal getSubtotalPrice() {
+        return subtotalPrice;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setSubtotalPrice(BigDecimal subtotalPrice) {
+        this.subtotalPrice = subtotalPrice;
     }
 }

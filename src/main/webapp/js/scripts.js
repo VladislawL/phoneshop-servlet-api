@@ -66,6 +66,69 @@ $(function () {
         });
     });
 
+    $('button[name="place-order"]').on("click", function () {
+        if (isFormOrderValid()) {
+            $.ajax({
+                type: "POST",
+                url: document.location.href,
+                data: {
+                    firstName: $('input[name="firstName"]').val(),
+                    lastName: $('input[name="lastName"]').val(),
+                    phoneNumber: $('input[name="phoneNumber"]').val(),
+                    address: $('input[name="address"]').val(),
+                    deliveryDate: $('input[name="deliveryDate"]').val(),
+                    paymentMethod: $('select[name="paymentMethod"]').val()
+                },
+                success: function (msg) {
+                    window.location = msg;
+                },
+                error: function (request, status, error) {
+                    var errors = JSON.parse(request.responseText);
+                    jQuery.each(errors, function(fieldName, errorMessage) {
+                        $('input[name="' + fieldName + '"]').siblings('.error').text(errorMessage);
+                    });
+                }
+            });
+        }
+    });
+
+    function isFormOrderValid() {
+        return validateOrderForm();
+    }
+
+    function validateOrderForm() {
+        var isValid = true;
+        if (!validateInputField("firstName")) {
+            isValid = false;
+        }
+        if (!validateInputField("lastName")) {
+            isValid = false;
+        }
+        if (!validateInputField("phoneNumber")) {
+            isValid = false;
+        }
+        if (!validateInputField("address")) {
+            isValid = false;
+        }
+        if (!validateInputField("deliveryDate")) {
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    function validateInputField(field) {
+        var isValid = true;
+        var $input = $('input[name="' + field + '"]');
+        $input.val($input.val().trim());
+        if ($input.val() === "") {
+            $input.siblings('.error').text("Field is required");
+            isValid = false;
+        } else {
+            $input.siblings('.error').text("");
+        }
+        return isValid;
+    }
+
     M.AutoInit();
 
     $('.dropdown-trigger').dropdown({

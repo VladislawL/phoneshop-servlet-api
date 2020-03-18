@@ -1,4 +1,4 @@
-package com.es.phoneshop.services;
+package com.es.phoneshop.services.productservice;
 
 import com.es.phoneshop.model.product.Product;
 import com.es.phoneshop.exceptions.ProductNotFoundException;

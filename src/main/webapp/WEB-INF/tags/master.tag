@@ -1,6 +1,7 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ attribute name="pageTitle" required="true" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
@@ -39,7 +40,9 @@
   </header>
   <main>
     <jsp:doBody/>
-    <tags:recentlyViewed/>
+    <c:if test="${not empty recentlyViewedProducts}">
+      <tags:recentlyViewed/>
+    </c:if>
   </main>
 </body>
 </html>

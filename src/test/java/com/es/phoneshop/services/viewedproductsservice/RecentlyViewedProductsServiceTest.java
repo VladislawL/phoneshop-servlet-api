@@ -1,7 +1,8 @@
-package com.es.phoneshop.model.product;
+package com.es.phoneshop.services.viewedproductsservice;
 
+import com.es.phoneshop.model.product.Product;
 import com.es.phoneshop.model.recentlyviewedproducts.ViewedProducts;
-import com.es.phoneshop.services.RecentlyViewedProductsService;
+import com.es.phoneshop.services.viewedproductsservice.RecentlyViewedProductsService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Currency;
 import java.util.LinkedList;
 import java.util.List;

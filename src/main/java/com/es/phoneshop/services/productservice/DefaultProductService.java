@@ -1,4 +1,4 @@
-package com.es.phoneshop.services;
+package com.es.phoneshop.services.productservice;
 
 import com.es.phoneshop.model.product.Product;
 import com.es.phoneshop.dao.ProductDao;
@@ -23,9 +23,10 @@ public class DefaultProductService implements ProductService {
     private DefaultProductService() {
     }
 
-    public static DefaultProductService getInstance() {
-        if (productService == null)
+    public synchronized static DefaultProductService getInstance() {
+        if (productService == null) {
             productService = new DefaultProductService();
+        }
         return productService;
     }
 
@@ -74,7 +75,7 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public Product getProductById(Long id) throws ProductNotFoundException {
-        Optional<Product> optionalProduct = productDao.getProduct(id);
+        Optional<Product> optionalProduct = productDao.getItem(id);
         Product product = optionalProduct.orElseThrow(() -> new ProductNotFoundException(id));
 
         Product copyProduct = copyProductExceptPreviousPrices(product);
@@ -96,7 +97,7 @@ public class DefaultProductService implements ProductService {
         );
     }
 
-    public void setProductDao(ProductDao productDao) {
+    protected void setProductDao(ProductDao productDao) {
         this.productDao = productDao;
     }
 }

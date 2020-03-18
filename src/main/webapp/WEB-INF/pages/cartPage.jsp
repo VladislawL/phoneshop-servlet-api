@@ -5,11 +5,15 @@
 
 <tags:master pageTitle="Shoping Cart">
     <div class="container">
-        <div class="row">
-            <div class="col s12">
-                <p id="status"></p>
+        <c:if test="${not empty error}">
+            <div class="row">
+                <div class="col s12">
+                    <p id="error-status" class="error">
+                        ${error}
+                    </p>
+                </div>
             </div>
-        </div>
+        </c:if>
         <div class="row">
             <div class="col s10">
                 <h3>Shopping Cart</h3>
@@ -19,7 +23,7 @@
                 <div class="total-price">
                     <div>
                         <h5>Total Price:</h5>
-                        <h6 id="total-price"><c:out value="${totalPrice}" /></h6>
+                        <h6 id="total-price"><c:out value="${subtotalPrice}" /></h6>
                     </div>
                 </div>
             </div>
@@ -58,7 +62,9 @@
         </div>
         <div class="row">
             <div class="col s12">
-                <p id="message" class="error"></p>
+                <a href="${pageContext.servletContext.contextPath}/checkout">
+                    <button class="btn">Order</button>
+                </a>
             </div>
         </div>
     </div>

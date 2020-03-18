@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import com.es.phoneshop.services.DefaultProductService;
+import com.es.phoneshop.services.productservice.DefaultProductService;
 
 public class ProductListPageServlet extends HttpServlet {
     private DefaultProductService productService;

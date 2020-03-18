@@ -1,7 +1,7 @@
 package com.es.phoneshop.web.filters;
 
 import com.es.phoneshop.model.product.Product;
-import com.es.phoneshop.services.RecentlyViewedProductsService;
+import com.es.phoneshop.services.viewedproductsservice.RecentlyViewedProductsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
