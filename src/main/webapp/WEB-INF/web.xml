@@ -15,7 +15,7 @@
   </context-param>
   <context-param>
     <param-name>dosMaxCountOfRequests</param-name>
-    <param-value>20</param-value>
+    <param-value>1000</param-value>
   </context-param>
 
   <listener>
@@ -63,6 +63,10 @@
     <servlet-name>overview</servlet-name>
     <servlet-class>com.es.phoneshop.web.servlets.OrderOverviewPageServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>advancedSearch</servlet-name>
+    <servlet-class>com.es.phoneshop.web.servlets.AdvancedSearchServlet</servlet-class>
+  </servlet>
   
   <servlet-mapping>
     <servlet-name>productList</servlet-name>
@@ -87,6 +91,10 @@
   <servlet-mapping>
     <servlet-name>overview</servlet-name>
     <url-pattern>/order/overview/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>advancedSearch</servlet-name>
+    <url-pattern>/advancedSearch</url-pattern>
   </servlet-mapping>
 
   <filter-mapping>

@@ -22,6 +22,9 @@ public class Product implements Serializable {
     private int stock;
     private String imageUrl;
     private Map<Date, BigDecimal> previousPrices;
+    private PhoneType type;
+    private String color;
+    private OperationSystem operationSystem;
 
     public Product() {
     }
@@ -31,6 +34,11 @@ public class Product implements Serializable {
     }
 
     public Product(Long id, String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl, Map<Date, BigDecimal> previousPrices) {
+        this(id, code, description, price, currency, stock, imageUrl, previousPrices, PhoneType.DEFAULT, "", OperationSystem.DEFAULT);
+    }
+
+    public Product(Long id, String code, String description, BigDecimal price, Currency currency,
+                   int stock, String imageUrl, Map<Date, BigDecimal> previousPrices, PhoneType type, String color, OperationSystem operationSystem) {
         this.id = id;
         this.code = code;
         this.description = description;
@@ -39,6 +47,9 @@ public class Product implements Serializable {
         this.stock = stock;
         this.imageUrl = imageUrl;
         this.previousPrices = previousPrices;
+        this.type = type;
+        this.color = color;
+        this.operationSystem = operationSystem;
     }
 
     public Long getId() {
@@ -103,5 +114,29 @@ public class Product implements Serializable {
 
     public void setPreviousPrices(Map<Date, BigDecimal> previousPrices) {
         this.previousPrices = previousPrices;
+    }
+
+    public PhoneType getType() {
+        return type;
+    }
+
+    public void setType(PhoneType type) {
+        this.type = type;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public OperationSystem getOperationSystem() {
+        return operationSystem;
+    }
+
+    public void setOperationSystem(OperationSystem operationSystem) {
+        this.operationSystem = operationSystem;
     }
 }
